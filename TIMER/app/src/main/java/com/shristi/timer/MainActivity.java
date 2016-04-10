@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this, EnterData.class);
+                Intent intent = new Intent(MainActivity.this, SetupDataActivity.class);
                 startActivity(intent);
             }
         });

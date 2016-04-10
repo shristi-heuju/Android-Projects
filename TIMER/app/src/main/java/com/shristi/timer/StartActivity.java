@@ -24,7 +24,7 @@ public class StartActivity extends AppCompatActivity {
     int currentSlideIndex = 0;      // denotes the index of slide that is in progress
     int timeRemaining = 0;          // total time for slide
 
-    int totalTimeRemaining = EnterData.totalTime;   // Total presentation time
+    int totalTimeRemaining = SetupDataActivity.totalTime;   // Total presentation time
 
     long slideStartTime = 0;    // stores start time of new slide
 
@@ -63,7 +63,7 @@ public class StartActivity extends AppCompatActivity {
                 //Slide has finished increment currentSlideIndex for next slide
                 currentSlideIndex++;
 
-                if (currentSlideIndex >= EnterData.items.size()) {
+                if (currentSlideIndex >= SetupDataActivity.items.size()) {
                     //No more slides to display.. End the presentation
                     timerHandler.removeCallbacks(timerRunnable);
                     finish();
@@ -123,7 +123,7 @@ public class StartActivity extends AppCompatActivity {
                 //Slide is finished earlier than expected
                 currentSlideIndex++;
 
-                if (currentSlideIndex >= EnterData.items.size()) {
+                if (currentSlideIndex >= SetupDataActivity.items.size()) {
                     //No more slides to display.. End the presentation
                     timerHandler.removeCallbacks(timerRunnable);
 
@@ -146,13 +146,13 @@ public class StartActivity extends AppCompatActivity {
 
     public void setAndStartNewSlide() {
         //Set slideName
-        tvSlideName.setText(EnterData.itemsSlideName.get(currentSlideIndex));
+        tvSlideName.setText(SetupDataActivity.itemsSlideName.get(currentSlideIndex));
         //set slide remaining time
-        timeRemaining = EnterData.itemsTimeRequired.get(currentSlideIndex);
+        timeRemaining = SetupDataActivity.itemsTimeRequired.get(currentSlideIndex);
         //set slide startTime
         slideStartTime = System.currentTimeMillis();
 
-        tvProgress.setText("" + (currentSlideIndex + 1) + "/" + EnterData.itemsSlideName.size());
+        tvProgress.setText("" + (currentSlideIndex + 1) + "/" + SetupDataActivity.itemsSlideName.size());
 
         toast("Slide: " + tvSlideName.getText());
 

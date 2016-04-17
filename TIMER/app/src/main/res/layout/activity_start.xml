@@ -114,7 +114,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:text="Extra Time" />
+            android:text="Extra Time"
+            android:background="@drawable/ovalbutton" />
 
         <Button
             android:id="@+id/btnNext"

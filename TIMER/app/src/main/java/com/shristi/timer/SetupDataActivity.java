@@ -1,5 +1,6 @@
 package com.shristi.timer;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class SetupDataActivity extends AppCompatActivity {
+public class SetupDataActivity extends AppCompatActivity implements SetupSlideDailogFragment.Communicator {
 
     //Request code for startActivityForResult()
     public final int ADD_DATA_REQUEST = 0;
@@ -86,10 +87,14 @@ public class SetupDataActivity extends AppCompatActivity {
         btnSetupData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Create intent to open AddDataActivity
+                /*Create intent to open AddDataActivity
                 Intent intent = new Intent(SetupDataActivity.this, PreSlideSetup.class);
-                //need to return with result from AddDataActivity
-                startActivityForResult(intent, ADD_DATA_REQUEST);
+                need to return with result from AddDataActivity
+                startActivityForResult(intent, ADD_DATA_REQUEST);*/
+
+                FragmentManager manager=getFragmentManager();
+                SetupSlideDailogFragment dialog=new SetupSlideDailogFragment();
+                dialog.show(manager, "SetupSlide");
 
             }
         });
@@ -139,4 +144,8 @@ public class SetupDataActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onDialogMessage(String message) {
+        toast(message);
+    }
 }

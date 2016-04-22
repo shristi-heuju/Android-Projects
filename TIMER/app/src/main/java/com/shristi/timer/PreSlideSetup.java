@@ -2,6 +2,7 @@ package com.shristi.timer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,25 +13,33 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class PreSlideSetup extends AppCompatActivity {
 
     public final int ADD_DATA_REQUEST = 0;
 
     EditText etSlideName, etTimeRequired, etSlideNumber;
-    Button btnNext, btnDone, btnProceed;
-    LinearLayout layoutPreSlideSetup, layoutEnterData;
+    Button btnNext;
+    //Button btnDone, btnProceed;
+    //LinearLayout layoutPreSlideSetup;
+    //LinearLayout layoutEnterData;
+
+    TimePicker tpTimeRequired;
 
     TextView tvSlideIndicator;
 
-    static int numberOfSlides = 1;
+    static int numberOfSlides = SetupDataActivity.slideNumber;
     //static int slideCount;
 
     static boolean limit = true;
     static boolean addMore = false;
 
     AlertDialog alertDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,32 +48,47 @@ public class PreSlideSetup extends AppCompatActivity {
 
         //Initialize Buttons and EditTexts for adding data
         btnNext = (Button) findViewById(R.id.btnNext);
-        btnDone = (Button) findViewById(R.id.btnDone);
-        btnProceed = (Button) findViewById(R.id.btnProceed);
+        //btnDone = (Button) findViewById(R.id.btnDone);
+        //  btnProceed = (Button) findViewById(R.id.btnProceed);
 
-        layoutPreSlideSetup = (LinearLayout) findViewById(R.id.layoutPreSLideSetup);
-        layoutEnterData = (LinearLayout) findViewById(R.id.layoutEnterData);
+        //layoutPreSlideSetup = (LinearLayout) findViewById(R.id.layoutPreSLideSetup);
+        //layoutEnterData = (LinearLayout) findViewById(R.id.layoutEnterData);
 
         etSlideName = (EditText) findViewById(R.id.etSlideName);
         etTimeRequired = (EditText) findViewById(R.id.etTimeRequired);
         etSlideNumber = (EditText) findViewById(R.id.etSlideNumber);
 
-        tvSlideIndicator = (TextView) findViewById(R.id.tvSlideIndicator);
 
-        layoutPreSlideSetup.setVisibility(View.VISIBLE);
-        layoutEnterData.setVisibility(View.GONE);
+        tvSlideIndicator = (TextView) findViewById(R.id.tvSlideIn
+      dicator);
+
+        //tpTimeRequired = (TimePicker) findViewById(R.id.tpTimeRequired);
+
+        //layoutPreSlideSetup.setVisibility(View.VISIBLE);
+        //layoutEnterData.setVisibility(View.GONE);
 
         log(SetupDataActivity.slideCount + " : " + numberOfSlides);
 
 
-        if (limit) {
-            btnDone.setVisibility(View.INVISIBLE);
-            btnNext.setVisibility(View.VISIBLE);
-        } else {
-            btnDone.setVisibility(View.VISIBLE);
-            btnNext.setVisibility(View.VISIBLE);
+        if (numberOfSlides > 0) {
+            tvSlideIndicator.setText(SetupDataActivity.slideCount + "/" + numberOfSlides);
         }
 
+        //request default focus
+        etTimeRequired.requestFocus();
+
+
+        etSlideName.setText("Slide " + SetupDataActivity.slideCount);
+
+        /*
+        if (limit) {
+            //btnDone.setVisibility(View.INVISIBLE);
+            btnNext.setVisibility(View.VISIBLE);
+        } else {
+            //btnDone.setVisibility(View.VISIBLE);
+            btnNext.setVisibility(View.VISIBLE);
+        }
+        */
 
         AlertDialog.Builder addMoreDialog = new AlertDialog.Builder(this);
         addMoreDialog.setMessage("Do you want to add more slides?");
@@ -95,13 +119,15 @@ public class PreSlideSetup extends AppCompatActivity {
         }
 
 
-        if (numberOfSlides > 1) {
-            layoutPreSlideSetup.setVisibility(View.GONE);
-            layoutEnterData.setVisibility(View.VISIBLE);
+        if (numberOfSlides >= 1) {
+            //layoutPreSlideSetup.setVisibility(View.GONE);
+            //layoutEnterData.setVisibility(View.VISIBLE);
 
             tvSlideIndicator.setText(SetupDataActivity.slideCount + "/" + numberOfSlides);
         }
 
+
+        /*
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,10 +146,18 @@ public class PreSlideSetup extends AppCompatActivity {
                 }
             }
         });
+        */
+
+
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //int hr = tpTimeRequired.getCurrentHour();
+                //int min = tpTimeRequired.getCurrentMinute();
+
+                //toast(hr + " : " + min);
 
                 if (SetupDataActivity.slideCount > numberOfSlides) {
                     //No need to enter more data
@@ -131,8 +165,6 @@ public class PreSlideSetup extends AppCompatActivity {
                     if (addMore) {
                         limit = false;
                     }
-
-
                 }
                 if (checkField()) {
                     //New intent
@@ -156,6 +188,7 @@ public class PreSlideSetup extends AppCompatActivity {
             }
         });
 
+        /*
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,6 +199,7 @@ public class PreSlideSetup extends AppCompatActivity {
 
             }
         });
+        */
     }
 
     public boolean checkField() {
@@ -179,6 +213,7 @@ public class PreSlideSetup extends AppCompatActivity {
     public void toast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
+
 
     public void log(String msg) {
         Log.d("PreSlideSetup", msg);

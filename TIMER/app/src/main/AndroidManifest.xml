@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shristi.timer">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-feature android:name="android.permission.layout"  android:required="false"/>
+
+    <compatible-screens>
+        <screen
+            android:screenDensity="xhdpi"
+            android:screenSize="xlarge"/>
+
+    </compatible-screens>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,6 +30,9 @@
         <activity android:name=".StartActivity" />
         <activity android:name=".SetupDataActivity" />
         <activity android:name=".PreSlideSetup" />
+        <activity android:name=".TimerSetup"/>
     </application>
+
+
 
 </manifest>

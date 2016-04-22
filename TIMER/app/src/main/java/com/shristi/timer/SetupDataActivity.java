@@ -23,6 +23,8 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
     ListView slideList;
     TextView tvTotalTime;
 
+    public static int slideNumber = 0;
+
     public static int slideCount = 1;
 
     //Declare EditText
@@ -66,7 +68,7 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
 
         Button btnDone = (Button) findViewById(R.id.btnDone);
         Button btnSetupData = (Button) findViewById(R.id.btnSetupData);
-
+        Button btnSetupTimer = (Button) findViewById(R.id.btnSetupTimer);
         //Create adapter with passing arraylist items
         adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
         //Set Adapter
@@ -87,19 +89,27 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
         btnSetupData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Create intent to open AddDataActivity
+                /*
+                //Create intent to open AddDataActivity
                 Intent intent = new Intent(SetupDataActivity.this, PreSlideSetup.class);
-                need to return with result from AddDataActivity
-                startActivityForResult(intent, ADD_DATA_REQUEST);*/
+                //need to return with result from AddDataActivity
+                startActivityForResult(intent, ADD_DATA_REQUEST);
+                */
 
-                FragmentManager manager=getFragmentManager();
-                SetupSlideDailogFragment dialog=new SetupSlideDailogFragment();
+                FragmentManager manager = getFragmentManager();
+                SetupSlideDailogFragment dialog = new SetupSlideDailogFragment();
                 dialog.show(manager, "SetupSlide");
 
             }
         });
+        btnSetupTimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SetupDataActivity.this, TimerSetup.class);
+                startActivity(intent);
+            }
+        });
     }
-
 
     //Automatically called (with passed data) when activity startActivityForResult() is terminated
     @Override
@@ -140,12 +150,22 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
         }
     }
 
-    public void toast(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onDialogMessage(String message) {
         toast(message);
+        //Convert the received message = no of slides to integer and store
+        slideNumber = Integer.parseInt(message);
+
+        //Create intent to open AddDataActivity
+        Intent intent = new Intent(SetupDataActivity.this, PreSlideSetup.class);
+
+        //need to return with result from AddDataActivity
+        startActivityForResult(intent, ADD_DATA_REQUEST);
     }
+
+    public void toast(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
 }

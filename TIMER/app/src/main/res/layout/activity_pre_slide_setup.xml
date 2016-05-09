@@ -87,8 +87,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#b1e9f7"
+                android:editable="false"
                 android:hint="sec"
-                android:inputType="number"
+                android:inputType="none"
                 android:textAlignment="center"
                 android:textSize="20dp" />
 

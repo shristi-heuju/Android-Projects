@@ -18,19 +18,26 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EnterData" />
-        <activity android:name=".AddDataActivity" />
-        <activity android:name=".StartActivity" />
-        <activity android:name=".SetupDataActivity" />
-        <activity android:name=".PreSlideSetup" />
-        <activity android:name=".TimerSetup"/>
+        <activity android:name=".EnterData"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AddDataActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".StartActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SetupDataActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PreSlideSetup"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".TimerSetup"
+            android:screenOrientation="portrait"/>
     </application>
 
 

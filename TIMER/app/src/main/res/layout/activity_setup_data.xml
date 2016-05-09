@@ -43,6 +43,16 @@
             android:text="Setup Slides" />
 
         <Button
+            android:id="@+id/btnLoadFromDb"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Load Slides" />
+
+        <Button
             android:id="@+id/btnSetupTimer"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -66,6 +76,14 @@
             android:text="Done" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/slideDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slide details:"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
 
     <ListView
         android:id="@+id/slideList"

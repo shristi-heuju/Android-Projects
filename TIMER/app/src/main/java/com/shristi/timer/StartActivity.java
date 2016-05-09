@@ -4,19 +4,28 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.sql.Time;
 
@@ -25,15 +34,31 @@ public class StartActivity extends AppCompatActivity {
     //public static int seriouslyLagOverallTime = 0;
     //public static int lagOverallTime = 0;
 
+    boolean firstRun1 = true;
+    boolean firstRun2 = true;
+
+    int excessTime = 0;
+
+    boolean haltSlideCountdown = false;
+    boolean compensateTime = false;
+
+    Animation anim;
+
+    int progressHeight = 0;
+
     int countDownTotalElapsedTime = 0;
+    int textSizeBig = 60;
 
     ImageButton btnStart;
     TextView tvSlideName, tvCountDown, tvTotalTime, tvProgress;
-    Button btnExtra;
+
+    TextView progress;
+
+    //Button btnExtra;
 
     Button btnNext, btnPause, btnStop;
 
-    LinearLayout slidePresentation;
+    LinearLayout slidePresentation, layoutButtons;
 
     Handler timerHandler = new Handler();
 
@@ -70,29 +95,71 @@ public class StartActivity extends AppCompatActivity {
             if (!isPaused) {
                 elapsedTime = time;
             }
+
+
+            DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+            int heightPixels = metrics.heightPixels - 150;
+
+            progressHeight = elapsedTime * heightPixels / timeRemaining;
+            progress.setHeight(progressHeight);
+            Log.d("Height", "Height: " + progressHeight);
+
             //Adjust min or sec
             countDown = timeRemaining - elapsedTime;
             countDownTotal = totalTimeRemaining - elapsedTime;
 
             //Decrease the remaining times in Coundown and TotalTimeRemaining
-            tvCountDown.setText("" + countDown / 60 + "m " + countDown % 60 + "s");
+            if (!haltSlideCountdown) {
+                tvCountDown.setText("" + countDown / 60 + "m " + countDown % 60 + "s");
+            } else {
+                tvCountDown.setText("0m 0s");
+            }
+            tvCountDown.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeBig);
+            //tvCountDown.setBackgroundColor(Color.BLACK);
+            tvCountDown.setTextColor(Color.BLACK);
+            //tvCountDown.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            //tvCountDown.setGravity(Gravity.CENTER_HORIZONTAL);
+            tvCountDown.setTypeface(null, Typeface.BOLD);
+
             tvTotalTime.setText("" + countDownTotal / 60 + "m " + countDownTotal % 60 + "s");
+            tvTotalTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeBig);
+            //tvTotalTime.setBackgroundColor(Color.BLACK);
+            tvTotalTime.setTextColor(Color.BLACK);
+            //tvTotalTime.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            //tvTotalTime.setGravity(Gravity.CENTER_HORIZONTAL);
+            tvTotalTime.setTypeface(null, Typeface.BOLD);
 
             //Slide color
             if (countDown <= TimerSetup.seriouslyLagSlide) {
-                tvCountDown.setBackgroundColor(Color.RED);
+                //tvCountDown.setBackgroundColor(Color.RED);
+                if (firstRun2) {
+                    v.vibrate(1000);
+                    firstRun2 = false;
+                }
+                progress.setBackgroundColor(Color.rgb(255, 51, 0));
+
+
             } else if (countDown <= TimerSetup.lagSlide) {
-                tvCountDown.setBackgroundColor(Color.YELLOW);
+                //tvCountDown.setBackgroundColor(Color.YELLOW);
+                if (firstRun1) {
+                    v.vibrate(1000);
+                    firstRun1 = false;
+                }
+                progress.setBackgroundColor(Color.YELLOW);     //for yellow color
             } else {
-                tvCountDown.setBackgroundColor(Color.GREEN);
+                //tvCountDown.setBackgroundColor(Color.GREEN);
+                //progress.setBackgroundColor(Color.GREEN);
+                progress.setBackgroundColor(Color.rgb(0, 153, 0));  //for green color
+
+
             }
             //Overall color
             if (countDownTotal <= TimerSetup.seriouslyLagSlide) {
-                tvTotalTime.setBackgroundColor(Color.RED);
+                //tvTotalTime.setBackgroundColor(Color.RED);
             } else if (countDownTotal <= TimerSetup.lagSlide) {
-                tvTotalTime.setBackgroundColor(Color.YELLOW);
+                //tvTotalTime.setBackgroundColor(Color.YELLOW);
             } else {
-                tvTotalTime.setBackgroundColor(Color.GREEN);
+                //tvTotalTime.setBackgroundColor(Color.GREEN);
             }
 
             if (countDown <= 0) {
@@ -100,14 +167,25 @@ public class StartActivity extends AppCompatActivity {
 
                 if (currentSlideIndex + 1 >= SetupDataActivity.items.size()) {
                     //No more slides to display.. End the presentation
-                    timerHandler.removeCallbacks(timerRunnable);
-                    finish();
+
+                    //To halt slide remaining time countdown when presentation ends
+                    //timeRemaining = elapsedTime;
+                    haltSlideCountdown = true;
+
+                    tvSlideName.setText("");
+
+                    //timerHandler.removeCallbacks(timerRunnable);
+                    //finish();
                 } else {
                     //If more slides available
                     //Set and start new slide
                     //totalTimeRemaining -= timeRemaining;
 
-                    isPaused = true;
+                    //isPaused = true;
+
+                    //Animation for the red blinking background
+                    progress.startAnimation(anim);
+
                     //setAndStartNewSlide();
                 }
             }
@@ -130,13 +208,27 @@ public class StartActivity extends AppCompatActivity {
         tvSlideName = (TextView) findViewById(R.id.tvSlideName);
         tvCountDown = (TextView) findViewById(R.id.tvCountDown);
         tvTotalTime = (TextView) findViewById(R.id.tvTotalTime);
-        btnExtra = (Button) findViewById(R.id.btnExtra);
+        //btnExtra = (Button) findViewById(R.id.btnExtra);
         slidePresentation = (LinearLayout) findViewById(R.id.slidePresentation);
+        layoutButtons = (LinearLayout) findViewById(R.id.layoutButtons);
         tvProgress = (TextView) findViewById(R.id.tvProgress);
+
+        progress = (TextView) findViewById(R.id.progress);
 
         btnNext = (Button) findViewById(R.id.btnNext);
         btnPause = (Button) findViewById(R.id.btnPause);
         btnStop = (Button) findViewById(R.id.btnStop);
+
+        //Setup progress
+        progress.setVisibility(View.VISIBLE);
+        progress.setHeight(1);
+        //progress.setBackgroundColor(Color.GREEN);
+
+        anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(500); //Manage the time of the blink
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
 
         //Alertdialog setup for stop button press
         //ask for restart or end
@@ -166,12 +258,14 @@ public class StartActivity extends AppCompatActivity {
 
                 btnStart.setVisibility(View.GONE);
                 slidePresentation.setVisibility(View.VISIBLE);
+                layoutButtons.setVisibility(View.VISIBLE);
 
                 //Initialize for first slide and start timer
                 setAndStartNewSlide();
             }
         });
 
+        /*
         btnExtra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,6 +276,7 @@ public class StartActivity extends AppCompatActivity {
                 totalTimeRemaining += extraTime;
             }
         });
+        */
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,17 +291,22 @@ public class StartActivity extends AppCompatActivity {
                     finish();
                 } else {
                     //Calculate excess time
-                    int excessTime = countDown;
+                    excessTime = countDown;
 
                     //totalTimeRemaining -= timeRemaining;
-                    totalTimeRemaining += excessTime;
+                    totalTimeRemaining += excessTime * 2;
+                    //update
+                    // timeRemaining+=excessTime;
 
                     //If more slides available
                     //Set and start new slide
-
+                    
                     isPaused = false;
 
                     setAndStartNewSlide();
+
+                    //Add or subtract time in next slide if quick finish or late finish
+                    timeRemaining += excessTime;
                 }
             }
         });
@@ -247,12 +347,22 @@ public class StartActivity extends AppCompatActivity {
 
         //isPaused = false;
 
+        //progress.startAnimation(anim);
+        progress.clearAnimation();
+
+        firstRun1 = true;
+        firstRun2 = true;
+
         currentSlideIndex++;
+
+        if (currentSlideIndex >= SetupDataActivity.items.size()) {
+            return;
+        }
 
         totalTimeRemaining -= timeRemaining;
 
         //Set Vibration here for each slide change
-        v.vibrate(1000);
+        // v.vibrate(1000);
 
         //Set slideName
         tvSlideName.setText(SetupDataActivity.itemsSlideName.get(currentSlideIndex));
@@ -266,6 +376,8 @@ public class StartActivity extends AppCompatActivity {
         toast("Slide: " + tvSlideName.getText());
 
         timerHandler.postDelayed(timerRunnable, 1000);
+
+
     }
 
     @Override

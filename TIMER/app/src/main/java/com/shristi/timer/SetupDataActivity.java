@@ -13,11 +13,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class SetupDataActivity extends AppCompatActivity implements SetupSlideDailogFragment.Communicator {
+public class SetupDataActivity extends AppCompatActivity implements SetupSlideDialogFragment.Communicator {
 
     //Request code for startActivityForResult()
     public final int ADD_DATA_REQUEST = 0;
     public static int totalTime = 0;
+
+    private Database db = new Database(this);
 
     //Declare a slideList
     ListView slideList;
@@ -69,6 +71,8 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
         Button btnDone = (Button) findViewById(R.id.btnDone);
         Button btnSetupData = (Button) findViewById(R.id.btnSetupData);
         Button btnSetupTimer = (Button) findViewById(R.id.btnSetupTimer);
+        Button btnLoadFromDb = (Button) findViewById(R.id.btnLoadFromDb);
+
         //Create adapter with passing arraylist items
         adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
         //Set Adapter
@@ -78,6 +82,9 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
             @Override
             public void onClick(View view) {
                 if (items.size() > 0) {
+
+                    db.addAllItems(items, itemsSlideName, itemsTimeRequired);
+
                     Intent intent = new Intent(SetupDataActivity.this, StartActivity.class);
                     startActivity(intent);
                 } else {
@@ -96,9 +103,20 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
                 startActivityForResult(intent, ADD_DATA_REQUEST);
                 */
 
+                slideCount = 1;
+
                 FragmentManager manager = getFragmentManager();
-                SetupSlideDailogFragment dialog = new SetupSlideDailogFragment();
+                SetupSlideDialogFragment dialog = new SetupSlideDialogFragment();
                 dialog.show(manager, "SetupSlide");
+
+                SetupDataActivity.items.clear();
+                SetupDataActivity.itemsSlideName.clear();
+                SetupDataActivity.itemsTimeRequired.clear();
+
+                //db.deleteAllItems();
+                adapter.notifyDataSetChanged();
+
+                totalTime = 0;
 
             }
         });
@@ -107,6 +125,30 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
             public void onClick(View view) {
                 Intent intent = new Intent(SetupDataActivity.this, TimerSetup.class);
                 startActivity(intent);
+            }
+        });
+
+        btnLoadFromDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                items.clear();
+                itemsSlideName.clear();
+                itemsTimeRequired.clear();
+
+                db.getAllItems();
+                adapter.notifyDataSetChanged();
+
+                int tt = 0;
+
+                for (int i = 0; i < itemsTimeRequired.size(); i++) {
+                    tt += itemsTimeRequired.get(i);
+                }
+
+                totalTime = tt;
+
+                tvTotalTime.setText("Total Time: " + totalTime / 60 + "min " + totalTime % 60 + " sec");
+
             }
         });
     }
@@ -124,8 +166,10 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
                 String timeRequired = data.getStringExtra("timeRequired");
                 boolean enterNext = data.getBooleanExtra("enterNext", false);
 
+                int time = Integer.parseInt(timeRequired);
+
                 //Add the extracted data to items array, to make ready to show in ListView
-                items.add(slideName + " : " + timeRequired + " sec");
+                items.add(slideName + " : " + time / 60 + "min " + time % 60 + " sec");
 
                 //refresh adapter to display the changes
                 adapter.notifyDataSetChanged();
@@ -137,7 +181,7 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
 
                 totalTime += Integer.parseInt(timeRequired);
 
-                tvTotalTime.setText("Total Time: " + totalTime);
+                tvTotalTime.setText("Total Time: " + totalTime / 60 + "min " + totalTime % 60 + " sec");
 
                 //If NextButton is clicked in AddDataActivity then immediately open the activity again to enter data
                 if (enterNext) {
@@ -153,15 +197,19 @@ public class SetupDataActivity extends AppCompatActivity implements SetupSlideDa
 
     @Override
     public void onDialogMessage(String message) {
-        toast(message);
+        //toast(message);
         //Convert the received message = no of slides to integer and store
         slideNumber = Integer.parseInt(message);
+
+        toast("Slide Numbers: " + slideNumber);
 
         //Create intent to open AddDataActivity
         Intent intent = new Intent(SetupDataActivity.this, PreSlideSetup.class);
 
         //need to return with result from AddDataActivity
         startActivityForResult(intent, ADD_DATA_REQUEST);
+
+
     }
 
     public void toast(String msg) {

@@ -2,7 +2,7 @@ package com.shristi.timer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.TimePickerDialog;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,14 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
-public class PreSlideSetup extends AppCompatActivity {
+public class PreSlideSetup extends AppCompatActivity implements TimePickerDialogFragment.Communicator {
 
     public final int ADD_DATA_REQUEST = 0;
 
@@ -28,7 +24,7 @@ public class PreSlideSetup extends AppCompatActivity {
     //LinearLayout layoutPreSlideSetup;
     //LinearLayout layoutEnterData;
 
-    TimePicker tpTimeRequired;
+    //TimePicker tpTimeRequired;
 
     TextView tvSlideIndicator;
 
@@ -38,6 +34,8 @@ public class PreSlideSetup extends AppCompatActivity {
     static boolean limit = true;
     static boolean addMore = false;
 
+    int timeRequired = 0;
+
     AlertDialog alertDialog;
 
 
@@ -45,6 +43,8 @@ public class PreSlideSetup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_slide_setup);
+
+        numberOfSlides = SetupDataActivity.slideNumber;
 
         //Initialize Buttons and EditTexts for adding data
         btnNext = (Button) findViewById(R.id.btnNext);
@@ -58,11 +58,13 @@ public class PreSlideSetup extends AppCompatActivity {
         etTimeRequired = (EditText) findViewById(R.id.etTimeRequired);
         etSlideNumber = (EditText) findViewById(R.id.etSlideNumber);
 
-
-        tvSlideIndicator = (TextView) findViewById(R.id.tvSlideIn
-      dicator);
+        tvSlideIndicator = (TextView) findViewById(R.id.tvSlideIndicator);
 
         //tpTimeRequired = (TimePicker) findViewById(R.id.tpTimeRequired);
+        //tpTimeRequired.setIs24HourView(true);
+        //tpTimeRequired.setCurrentHour(0);
+        //tpTimeRequired.setCurrentMinute(0);
+
 
         //layoutPreSlideSetup.setVisibility(View.VISIBLE);
         //layoutEnterData.setVisibility(View.GONE);
@@ -74,11 +76,22 @@ public class PreSlideSetup extends AppCompatActivity {
             tvSlideIndicator.setText(SetupDataActivity.slideCount + "/" + numberOfSlides);
         }
 
+        etSlideName.setText("Slide " + SetupDataActivity.slideCount);
+
+        etTimeRequired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                TimePickerDialogFragment dialog = new TimePickerDialogFragment();
+                dialog.show(manager, "TimePicker");
+            }
+
+        });
+
         //request default focus
         etTimeRequired.requestFocus();
 
 
-        etSlideName.setText("Slide " + SetupDataActivity.slideCount);
 
         /*
         if (limit) {
@@ -103,6 +116,7 @@ public class PreSlideSetup extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 addMore = false;
                 finish();
+                //onDestroy();
             }
         });
         alertDialog = addMoreDialog.create();
@@ -149,15 +163,18 @@ public class PreSlideSetup extends AppCompatActivity {
         */
 
 
-
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //int hr = tpTimeRequired.getCurrentHour();
-                //int min = tpTimeRequired.getCurrentMinute();
+                //receive in 24HR format
+                //int min = tpTimeRequired.getCurrentHour();
+                //int sec = tpTimeRequired.getCurrentMinute();
 
-                //toast(hr + " : " + min);
+                //int timeRequired = min * 60 + sec;   //this is in seconds
+
+                //toast(min + " : " + sec);
+
 
                 if (SetupDataActivity.slideCount > numberOfSlides) {
                     //No need to enter more data
@@ -171,7 +188,8 @@ public class PreSlideSetup extends AppCompatActivity {
                     Intent returnIntent = new Intent();
                     //attach the data to be returned to the intent
                     returnIntent.putExtra("slideName", etSlideName.getText().toString());
-                    returnIntent.putExtra("timeRequired", etTimeRequired.getText().toString());
+                    //returnIntent.putExtra("timeRequired", etTimeRequired.getText().toString());
+                    returnIntent.putExtra("timeRequired", String.valueOf(timeRequired));
 
                     if (SetupDataActivity.slideCount <= numberOfSlides || !limit) {
                         returnIntent.putExtra("enterNext", true);
@@ -183,6 +201,7 @@ public class PreSlideSetup extends AppCompatActivity {
 
                     SetupDataActivity.slideCount++;
 
+                    //onDestroy();
                     finish();
                 }
             }
@@ -208,6 +227,16 @@ public class PreSlideSetup extends AppCompatActivity {
         }
         toast("Error: Empty Fields !! ");
         return false;
+    }
+
+    @Override
+    public void onDialogMessage(String message) {
+
+        //Convert the received message = time required
+        timeRequired = Integer.parseInt(message);
+
+        etTimeRequired.setText(timeRequired / 60 + "m " + timeRequired % 60 + "s");
+        //etTimeRequired.setActivated(false);
     }
 
     public void toast(String msg) {

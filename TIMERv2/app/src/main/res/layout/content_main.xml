@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.shristi.timerv2.SetupDataActivity"
+    tools:showIn="@layout/activity_start">
+
+
+    <TextView
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:gravity="center"
+        android:scaleType="centerInside"
+        android:src="@drawable/startbutton_bg"
+        android:visibility="visible" />
+
+
+    <LinearLayout
+        android:id="@+id/slidePresentation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:gravity="center"
+                android:text="Slide"
+                android:textColor="#000ea4"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tvProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:gravity="right"
+                android:text="1/10"
+                android:textColor="#000000" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvSlideName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@null"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:hint="Slide Name"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="Current Slide Timer Countdown"
+            android:textColor="#000ea4"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvCountDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@null"
+            android:gravity="center" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="Presentation Timer Countdown"
+            android:textColor="#000ea4"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvTotalTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layoutButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/ovalbutton_bg"
+            android:text="Next" />
+
+        <Button
+            android:id="@+id/btnPause"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/ovalbutton_bg"
+            android:text="Pause" />
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/ovalbutton_bg"
+            android:text="Stop" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

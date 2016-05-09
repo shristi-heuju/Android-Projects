@@ -3,14 +3,6 @@
     package="com.shristi.timer">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-feature android:name="android.permission.layout"  android:required="false"/>
-
-    <compatible-screens>
-        <screen
-            android:screenDensity="xhdpi"
-            android:screenSize="xlarge"/>
-
-    </compatible-screens>
 
     <application
         android:allowBackup="true"

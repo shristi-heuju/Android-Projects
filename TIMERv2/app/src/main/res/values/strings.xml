@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TIMERv2</string>
+    <string name="action_setup_slides">Setup Slides</string>
+    <string name="action_load_slides">Load Slides</string>
+    <string name="action_setup_timer">Setup Timer</string>
+</resources>

@@ -1,4 +1,4 @@
-package com.shristi.timer;
+package com.shristi.timerv2;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,14 +7,15 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
@@ -24,10 +25,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.sql.Time;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -100,9 +97,9 @@ public class StartActivity extends AppCompatActivity {
             DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
             int heightPixels = metrics.heightPixels - 150;
 
-            progressHeight = elapsedTime * heightPixels / timeRemaining;
-            progress.setHeight(progressHeight);
-            Log.d("Height", "Height: " + progressHeight);
+            //progressHeight = elapsedTime * heightPixels / timeRemaining;
+            //progress.setHeight(progressHeight);
+            //Log.d("Height", "Height: " + progressHeight);
 
             //Adjust min or sec
             countDown = timeRemaining - elapsedTime;
@@ -198,6 +195,8 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         //disable screen timeout
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -255,13 +254,16 @@ public class StartActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (SetupDataActivity.items.size() > 0) {
+                    btnStart.setVisibility(View.GONE);
+                    slidePresentation.setVisibility(View.VISIBLE);
+                    layoutButtons.setVisibility(View.VISIBLE);
 
-                btnStart.setVisibility(View.GONE);
-                slidePresentation.setVisibility(View.VISIBLE);
-                layoutButtons.setVisibility(View.VISIBLE);
-
-                //Initialize for first slide and start timer
-                setAndStartNewSlide();
+                    //Initialize for first slide and start timerv2
+                    setAndStartNewSlide();
+                } else {
+                    toast("Please setup data first");
+                }
             }
         });
 
@@ -381,21 +383,45 @@ public class StartActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_load_slides) {
+            Intent intent = new Intent(StartActivity.this, SetupDataActivity.class);
+            intent.putExtra("id", 1);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_setup_slides) {
+            Intent intent = new Intent(StartActivity.this, SetupDataActivity.class);
+            intent.putExtra("id", 2);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_setup_timer) {
+            Intent intent = new Intent(StartActivity.this, SetupDataActivity.class);
+            intent.putExtra("id", 3);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
         timerHandler.removeCallbacks(timerRunnable);
-    }
-
-
-    /* Helper Methods */
-
-    private void addTime() {
-
-    }
-
-    private void subtractTime() {
-
     }
 
     public void toast(String msg) {

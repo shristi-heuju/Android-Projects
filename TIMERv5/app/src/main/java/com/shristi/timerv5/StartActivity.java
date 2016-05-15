@@ -126,17 +126,23 @@ public class StartActivity extends AppCompatActivity implements NavigationView.O
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+         if (id == R.id.nav_loadslides) {
+             Intent intent = new Intent(StartActivity.this, SetupDataActivity.class);
+             intent.putExtra("id", 1);
+             startActivity(intent);
+             return true;
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_setupslides) {
+             Intent intent = new Intent(StartActivity.this, SetupDataActivity.class);
+             intent.putExtra("id", 2);
+             startActivity(intent);
+             return true;
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_setuptimer) {
+             Intent intent = new Intent(StartActivity.this, SetupDataActivity.class);
+             intent.putExtra("id", 3);
+             startActivity(intent);
+             return true;
 
         }
 

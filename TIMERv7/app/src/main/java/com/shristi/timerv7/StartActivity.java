@@ -1,4 +1,4 @@
-package com.shristi.timerv6;
+package com.shristi.timerv7;
 
 import android.content.Context;
 import android.content.Intent;

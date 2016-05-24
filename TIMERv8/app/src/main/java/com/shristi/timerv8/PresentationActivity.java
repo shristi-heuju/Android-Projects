@@ -1,6 +1,6 @@
 
 
-package com.shristi.timerv7;
+package com.shristi.timerv8;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,7 +15,6 @@ import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
@@ -100,9 +99,9 @@ public class PresentationActivity extends AppCompatActivity {
             DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
             int heightPixels = metrics.heightPixels - 150;
 
-            progressHeight = elapsedTime * heightPixels / timeRemaining;
-            progress.setHeight(progressHeight);
-            Log.d("Height", "Height: " + progressHeight);
+            //progressHeight = elapsedTime * heightPixels / timeRemaining;
+            //progress.setHeight(progressHeight);
+            //Log.d("Height", "Height: " + progressHeight);
 
             //Adjust min or sec
             countDown = timeRemaining - elapsedTime;
@@ -129,40 +128,30 @@ public class PresentationActivity extends AppCompatActivity {
             //tvTotalTime.setGravity(Gravity.CENTER_HORIZONTAL);
             tvTotalTime.setTypeface(null, Typeface.BOLD);
 
+            //Log.e("test", (TimerSetup.seriouslyLagSlide * timeRemaining) / 100 + " ");
             //Slide color
-            if (countDown <= TimerSetup.seriouslyLagSlide) {
-                //tvCountDown.setBackgroundColor(Color.RED);
+            if (countDown <= (TimerSetup.seriouslyLagSlide * timeRemaining) / 100) {
+                tvCountDown.setTextColor(Color.RED);
+                tvTotalTime.setTextColor(Color.RED);
                 if (firstRun2) {
                     v.vibrate(1000);
                     firstRun2 = false;
                 }
-                progress.setBackgroundColor(Color.rgb(255, 51, 0));
-                tvSlideNameCaption.setTextColor(Color.WHITE);
-                tvCurrentSlideCountDownCaption.setTextColor(Color.WHITE);
-                tvPresentationCountDownCaption.setTextColor(Color.WHITE);
 
 
-            } else if (countDown <= TimerSetup.lagSlide) {
-                //tvCountDown.setBackgroundColor(Color.YELLOW);
+            } else if (countDown <= (TimerSetup.lagSlide * timeRemaining) / 100) {
+                tvCountDown.setTextColor(Color.YELLOW);
+                tvTotalTime.setTextColor(Color.YELLOW);
                 if (firstRun1) {
                     v.vibrate(1000);
                     firstRun1 = false;
                 }
-                progress.setBackgroundColor(Color.YELLOW);  //for yellow color
-
-                tvSlideNameCaption.setTextColor(Color.BLUE);
-                tvCurrentSlideCountDownCaption.setTextColor(Color.BLUE);
-                tvPresentationCountDownCaption.setTextColor(Color.BLUE);
 
 
             } else {
-                //tvCountDown.setBackgroundColor(Color.GREEN);
-                //progress.setBackgroundColor(Color.GREEN);
-                progress.setBackgroundColor(Color.rgb(0, 153, 0));  //for green color
+                tvCountDown.setTextColor(Color.GREEN);
+                tvTotalTime.setTextColor(Color.GREEN);
 
-                tvSlideNameCaption.setTextColor(Color.rgb(250, 250, 0));
-                tvCurrentSlideCountDownCaption.setTextColor(Color.rgb(250, 250, 0));
-                tvPresentationCountDownCaption.setTextColor(Color.rgb(250, 250, 0));
 
             }
             //Overall color
@@ -202,7 +191,9 @@ public class PresentationActivity extends AppCompatActivity {
 
                     //setAndStartNewSlide();
                 }
-                progress.startAnimation(anim);
+                //progress.startAnimation(anim);
+                startAnimate();
+
             }
 
             timerHandler.postDelayed(this, 500);
@@ -234,16 +225,18 @@ public class PresentationActivity extends AppCompatActivity {
         tvCurrentSlideCountDownCaption = (TextView) findViewById(R.id.tvCurrentSlideCountDownCaption);
         tvPresentationCountDownCaption = (TextView) findViewById(R.id.tvPresentationCountDownCaption);
 
-        progress = (TextView) findViewById(R.id.progress);
+        //progress = (TextView) findViewById(R.id.progress);
 
         btnNext = (Button) findViewById(R.id.btnNext);
         btnPause = (Button) findViewById(R.id.btnPause);
         btnStop = (Button) findViewById(R.id.btnStop);
 
+        tvSlideName.setTextColor(Color.rgb(0, 150, 200));
+
 
         //Setup progress
-        progress.setVisibility(View.VISIBLE);
-        progress.setHeight(1);
+        //progress.setVisibility(View.VISIBLE);
+        //progress.setHeight(1);
         //progress.setBackgroundColor(Color.GREEN);
 
         anim = new AlphaAnimation(0.0f, 1.0f);
@@ -343,8 +336,9 @@ public class PresentationActivity extends AppCompatActivity {
 
         //isPaused = false;
 
-        progress.startAnimation(anim);
-        progress.clearAnimation();
+        //progress.startAnimation(anim);
+        //progress.clearAnimation();
+        stopAnimate();
 
         firstRun1 = true;
         firstRun2 = true;
@@ -380,6 +374,16 @@ public class PresentationActivity extends AppCompatActivity {
         super.onPause();
 
         timerHandler.removeCallbacks(timerRunnable);
+    }
+
+    public void startAnimate() {
+        tvTotalTime.startAnimation(anim);
+        tvCountDown.startAnimation(anim);
+    }
+
+    public void stopAnimate() {
+        tvTotalTime.clearAnimation();
+        tvCountDown.clearAnimation();
     }
 
     public void toast(String msg) {

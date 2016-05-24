@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#199ae4"
+    tools:context="com.shristi.timerv7.SetupDataActivity">
+
+
+    <TextView
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/slidePresentation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="visible"
+        android:weightSum="100">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10">
+
+            <TextView
+                android:id="@+id/tvSlideNameCaption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Slide"
+                android:textColor="#000ea4"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tvProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="1/10"
+                android:textSize="30sp"
+                android:textColor="#000000" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvSlideName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:background="@null"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="Slide Name"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/tvCurrentSlideCountDownCaption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="10"
+            android:text="Current Slide Timer Countdown"
+            android:textColor="#000ea4"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tvCountDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:background="@null"
+            android:text="0m0s"
+            android:textAlignment="center"
+            android:textSize="120sp" />
+
+        <TextView
+            android:id="@+id/tvPresentationCountDownCaption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="10"
+            android:text="Presentation Timer Countdown"
+            android:textColor="#000ea4"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tvTotalTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:background="@null"
+            android:text="0m0s"
+            android:textAlignment="center"
+            android:textSize="120sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="10"
+            android:textColor="#000ea4"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layoutButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:textSize="30sp"
+            android:background="@drawable/ovalbutton_bg"
+            android:text="Next"/>
+
+        <Button
+            android:id="@+id/btnPause"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:textSize="30sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/ovalbutton_bg"
+            android:text="Pause" />
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:textSize="30sp"
+            android:background="@drawable/ovalbutton_bg"
+            android:text="Stop" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

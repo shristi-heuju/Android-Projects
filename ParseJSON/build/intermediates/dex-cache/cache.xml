@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="E:\Android Projects\ParseJSON\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="e996f3ba3dc2b1b71c992aa317f56a72132a5bef">
+        <dex dex="E:\Android Projects\ParseJSON\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_aa2a0efe894720979a5cdc23a586098fa227bebb.jar" />
+    </item>
+    <item
+        jar="C:\android_sdk\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="E:\Android Projects\ParseJSON\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0_9d8c018aeaafa11d050ec174fe54f5a3b46f2333.jar" />
+    </item>
+    <item
+        jar="E:\Android Projects\ParseJSON\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="22.0.1"
+        sha1="14b412e033c30418727d2ba6a8e16a8463dac570">
+        <dex dex="E:\Android Projects\ParseJSON\app\build\intermediates\pre-dexed\debug\instant-run_65d40d585c61e5d0c5b3e752730e91b67d5c9e1b.jar" />
+    </item>
+
+</items>

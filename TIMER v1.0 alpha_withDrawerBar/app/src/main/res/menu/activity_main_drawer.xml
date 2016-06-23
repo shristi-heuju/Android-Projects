@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_loadslides"
+        android:title="Load Slides">80sp</item>
+    <item
+        android:id="@+id/nav_setupslides"
+        android:title="Setup Slides">80sp</item>
+    <item
+        android:id="@+id/nav_setuptimer"
+        android:title="Setup Timer">80sp</item>
+
+        <item
+            android:id="@+id/nav_help"
+            android:title="Help">80sp</item>
+
+    </group>
+
+</menu>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.shristi.timerv1_alpha_withDrawerBar">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="TIMERv1_alpha_1"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".StartActivity"
+            android:label="TIMERv1_alpha_1"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SetupDataActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PreSlideSetup"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TimerSetup"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PresentationActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".HelpActivity"></activity>
+    </application>
+
+</manifest>

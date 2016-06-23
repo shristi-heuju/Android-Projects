@@ -14,11 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -34,11 +38,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     private static final int SUCCESS_CONNECT = 0;
     private static final int MESSAGE_READ = 1;
     ArrayAdapter<String> listAdapter;
+
+    ConnectedThread connectedThread;
+
+    Button btnForward, btnBackward, btnRight, btnLeft, btnEnd;
+    LinearLayout linearLayout, linearLayoutPaired;
+
     // BluetoothAdapter mBluetoothAdapter;
     ListView listView;
     BluetoothAdapter btAdapter;
     Set<BluetoothDevice> devicesarray;
     ArrayList<String> pairedDevices;
+    ArrayList<String> pairedDeviceAddress;
     ArrayList<BluetoothDevice> btDevices;
     IntentFilter filter;
     BroadcastReceiver receiver;
@@ -51,7 +62,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             switch (msg.what) {
                 case SUCCESS_CONNECT:
                     //Do something
-                    ConnectedThread connectedThread = new ConnectedThread((BluetoothSocket) msg.obj);
+                    connectedThread = new ConnectedThread((BluetoothSocket) msg.obj);
                     Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
                     String s = "Successfully Connected";
                     connectedThread.write(s.getBytes());
@@ -70,7 +81,105 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //disable screen timeout
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         btAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        btnForward = (Button) findViewById(R.id.btnForward);
+        btnBackward = (Button) findViewById(R.id.btnBackward);
+        btnRight = (Button) findViewById(R.id.btnRight);
+        btnLeft = (Button) findViewById(R.id.btnLeft);
+        btnEnd = (Button) findViewById(R.id.btnEnd);
+
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+        linearLayoutPaired = (LinearLayout) findViewById(R.id.linearLayoutPaired);
+
+        btnForward.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+//                Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    String s = "2";
+                    connectedThread.write(s.getBytes());
+                    Log.d("TouchTest", "Touch down");
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    String s = "0";
+                    connectedThread.write(s.getBytes());
+                    Log.d("TouchTest", "Touch up");
+                }
+
+                return false;
+            }
+        });
+
+        btnBackward.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+//                Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_SHORT).show();
+
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    String s = "1";
+                    connectedThread.write(s.getBytes());
+                    Log.d("TouchTest", "Touch down");
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    String s = "0";
+                    connectedThread.write(s.getBytes());
+                    Log.d("TouchTest", "Touch up");
+                }
+
+                return false;
+            }
+        });
+        btnRight.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+//                Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
+
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    String s = "3";
+                    connectedThread.write(s.getBytes());
+                    Log.d("TouchTest", "Touch down");
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    String s = "0";
+                    connectedThread.write(s.getBytes());
+                    Log.d("TouchTest", "Touch up");
+                }
+
+                return false;
+            }
+        });
+        btnLeft.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+//                Toast.makeText(getApplicationContext(), "4", Toast.LENGTH_SHORT).show();
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    String s = "4";
+                    connectedThread.write(s.getBytes());
+                    Log.d("TouchTest", "Touch down");
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    String s = "0";
+                    connectedThread.write(s.getBytes());
+                    Log.d("TouchTest", "Touch up");
+                }
+
+                return false;
+            }
+        });
+
+        btnEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "END", Toast.LENGTH_SHORT).show();
+                connectedThread.cancel();
+                finish();
+
+            }
+        });
+
+
         init();
         if (btAdapter == null) {
             Toast.makeText(getApplicationContext(), "No bluetooth connected", Toast.LENGTH_SHORT).show();
@@ -101,6 +210,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         if (devicesarray.size() > 0) {
             for (BluetoothDevice device : devicesarray) {
                 pairedDevices.add(device.getName());
+                pairedDeviceAddress.add(device.getAddress());
             }
         }
     }
@@ -109,6 +219,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(MainActivity.this);
         pairedDevices = new ArrayList<String>();
+        pairedDeviceAddress = new ArrayList<String>();
         listAdapter = new ArrayAdapter<String>(this, R.layout.list_item, 0);
         listView.setAdapter(listAdapter);
         btAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -128,13 +239,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                     String s = "";
                     for (int a = 0; a < pairedDevices.size(); a++) {
                         Log.e("Check: ", device.getName() + " : " + (pairedDevices.get(a)));
-                        if (device.getName() != null) {
-                            //if (device.getAddress().equals(pairedDevices.get(a))){
-                            if (device.getName().equals(pairedDevices.get(a))) {
-                                //append
-                                s = "(Paired)";
-                                break;
-                            }
+//                        if (device.getName() != null) {
+//                            //if (device.getAddress().equals(pairedDevices.get(a))){
+//                            if (device.getName().equals(pairedDevices.get(a))) {
+//                                //append
+//                                s = "(Paired)";
+//                                break;
+//                            }
+//                        }
+                        if (device.getAddress().equals(pairedDeviceAddress.get(a))) {
+                            //append
+                            s = "(Paired)";
+                            break;
                         }
                     }
                     listAdapter.add(device.getName() + "" + s + "" + "\n" + device.getAddress());
@@ -186,6 +302,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             ConnectThread connect = new ConnectThread(selectedDevice);
             connect.start();
             Toast.makeText(getApplicationContext(), "Device is paired", Toast.LENGTH_SHORT).show();
+
+
+            linearLayoutPaired.setVisibility(View.INVISIBLE);
+            linearLayout.setVisibility(View.VISIBLE);
+
         } else {
             Toast.makeText(getApplicationContext(), "Device is not paired", Toast.LENGTH_SHORT).show();
         }

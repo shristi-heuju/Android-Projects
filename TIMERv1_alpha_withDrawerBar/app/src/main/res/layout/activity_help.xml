@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.shristi.timerv1_alpha_withDrawerBar.HelpActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="How to Start??"
+        android:textColor="#ff0000"
+        android:textSize="30sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Load slides:
+To load the previous set of slides and corresponding time interval.
+The slides' content and time interval should have been set up previously to use this function."
+        android:textColor="#a1a1d7"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Setup slides:
+To set up slides and corresponding time interval to be used during presentation."
+        android:textColor="#00ff00"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Setup timer:
+To set up the time at which the alert/warning is to be generated.
+Alert is represented with change of text color to yellow.
+Warning is represented with change of text color to red.
+When the time interval defined for each slide is over, the text will start to blink.
+"
+        android:textColor="#c9de9d"
+        android:textSize="18sp" />
+</LinearLayout>

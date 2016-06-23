@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Seut Up Timer"
+        android:textColor="#ffffff"
+        android:textSize="100sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:text="In percentage of total time"
+        android:textColor="#F0F0F0"
+        android:textSize="50sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="459dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:background="#000000"
+            android:text="Warn(Red)"
+            android:textColor="#00ff00"
+            android:textSize="80sp" />
+
+        <EditText
+            android:id="@+id/etSeriouslyLagSlide"
+            android:layout_width="210dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/textviewcolor"
+            android:gravity="center"
+            android:hint="0%"
+            android:padding="5dp"
+            android:text="20"
+            android:textSize="80sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:background="#000000"
+            android:text="Alert(Yellow)"
+            android:textColor="#00ff00"
+            android:textSize="80sp" />
+
+        <EditText
+            android:id="@+id/etLagSlide"
+            android:layout_width="210dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="17dp"
+            android:background="@drawable/textviewcolor"
+            android:gravity="center"
+            android:hint="20%"
+            android:padding="5dp"
+            android:text="40"
+            android:textSize="80sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="200dp"
+        android:layout_height="110dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_bg"
+        android:text="Back"
+        android:textSize="50sp" />
+
+
+</LinearLayout>

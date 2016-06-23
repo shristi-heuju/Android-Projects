@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="8dp"
     android:text="hello"
-    android:textSize="14sp">
+    android:textColor="#00ff00"
+    android:textSize="20sp">
 
 </TextView>
